@@ -1,0 +1,37 @@
+// problem 1292
+
+int maxSideLength(int** mat, int matSize, int* matColSize, int threshold) {
+    int m=matSize;
+    int n=matColSize[0];
+    
+    // prefix sum array
+    int pre[m+1][n+1];
+
+   // initialize prefix sum with 0
+    for(int i=0;i<=m;i++){
+        for(int j=0;j<=n;j++){
+            pre[i][j]=0;
+        }
+    }
+
+    // build prefix sum
+    for(int i=1;i<=m;i++){
+        for(int j=1;j<=n;j++){
+            pre[i][j]= mat[i-1][j-1]+pre[i-1][j]+pre[i][j-1]-pre[i-1][j-1];
+        }
+    }
+    int maxSide=0;
+
+    // try all possible side lengths
+    for(int k=1;k<=(m<n?m:n);k++){
+        for(int i=0;i+k<=m;i++){
+            for(int j=0;j+k<=n;j++){
+                int sum=pre[i+k][j+k]-pre[i][j+k]-pre[i+k][j]+pre[i][j];
+                if(sum<=threshold){
+                    maxSide=k;
+                }
+            }
+        }
+    }
+    return maxSide;
+}
