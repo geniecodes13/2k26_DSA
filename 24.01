@@ -1,0 +1,26 @@
+// sort
+// approach-- sum of first smallest with the first largest, and similarly
+// find max sum among the pair
+
+
+// problem 1877
+
+int cmp(const void *a, const void *b){
+    return (*(int *)a-*(int *)b);
+}
+
+int minPairSum(int* nums, int numsSize){
+    qsort(nums, numsSize, sizeof(int),cmp);
+
+    int i=0, j=numsSize-1;
+    int maxSum=0;
+    while(i<j){
+        int pairSum=nums[i]+nums[j];
+        if(pairSum>maxSum){
+            maxSum= pairSum;
+        }
+        i++;
+        j--;
+    }
+    return maxSum;
+}
